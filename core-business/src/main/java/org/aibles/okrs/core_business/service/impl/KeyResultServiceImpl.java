@@ -1,6 +1,7 @@
 package org.aibles.okrs.core_business.service.impl;
 
 import java.time.Instant;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.okrs.core_business.component.MappingHelper;
@@ -103,7 +104,6 @@ public class KeyResultServiceImpl implements KeyResultService {
         .findById(id)
         .map(
             exist -> {
-
               var objectiveResponseDTO = objectiveService.get(exist.getObjectiveId());
               validateInputData(
                   updateKeyResultRequest.getContent(),
@@ -155,12 +155,18 @@ public class KeyResultServiceImpl implements KeyResultService {
 
   private void validateInputData(String content, Instant inputTime, Instant limitTime) {
 
-    var checkMinTime = inputTime.compareTo(Instant.now());
-    var checkMaxTime = inputTime.compareTo(limitTime);
+    if (Objects.nonNull(inputTime)) {
+      var checkMinTime = inputTime.compareTo(Instant.now());
+      if (checkMinTime <= RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS) {
+        throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID));
+      }
 
-    if (checkMinTime <= RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS
-        || checkMaxTime > RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS) {
-      throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID));
+      if (Objects.nonNull(limitTime)) {
+        var checkMaxTime = inputTime.compareTo(limitTime);
+        if (checkMaxTime > RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS) {
+          throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID));
+        }
+      }
     }
 
     if (repository.existsByContent(content)) {
