@@ -30,7 +30,9 @@ public class KeyResultServiceImpl implements KeyResultService {
 
   private static final int KEY_RESULT_REACHED_LIMIT = 5;
   private static final String KEY_MESSAGE_RESULT_REACHED_LIMIT = "message.limited-key-result";
-  private static final String KEY_MESSAGE_DEADLINE_INVALID = "message.deadline-invalid";
+  private static final String KEY_MESSAGE_DEADLINE_INVALID_GREATER = "message.deadline-invalid-greater";
+  private static final String KEY_MESSAGE_DEADLINE_INVALID_LESS = "message.deadline-invalid-less";
+
   private static final String KEY_MESSAGE_CONFLICT_CONTENT = "message.conflict-content";
   private static final int RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS = 0;
 
@@ -158,13 +160,13 @@ public class KeyResultServiceImpl implements KeyResultService {
     if (Objects.nonNull(inputTime)) {
       var checkMinTime = inputTime.compareTo(Instant.now());
       if (checkMinTime <= RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS) {
-        throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID));
+        throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID_GREATER));
       }
 
       if (Objects.nonNull(limitTime)) {
         var checkMaxTime = inputTime.compareTo(limitTime);
         if (checkMaxTime > RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS) {
-          throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID));
+          throw new BadRequestException(messageHelper.getMessage(KEY_MESSAGE_DEADLINE_INVALID_LESS));
         }
       }
     }
