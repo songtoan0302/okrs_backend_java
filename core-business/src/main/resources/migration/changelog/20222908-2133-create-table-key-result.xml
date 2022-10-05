@@ -1,0 +1,27 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <changeSet id="20222908-2133-create-table-key-result-001" author="toanns">
+    <createTable tableName="key_result">
+      <column name="id" type="varchar(255)">
+        <constraints nullable="false" primaryKey="true" unique="true"
+          primaryKeyName="pk_key_result_id"/>
+      </column>
+      <column name="objective_id" type="varchar(255)"/>
+      <column name="content" type="varchar(255)"/>
+      <column name="target" type="bigint"/>
+      <column name="unit" type="varchar(255)"/>
+      <column name="current_achievement" type="varchar(255)"/>
+      <column name="status" type="varchar(255)"/>
+      <column name="created_at" type="datetime"/>
+      <column name="deadline_at" type="datetime"/>
+
+    </createTable>
+    <addForeignKeyConstraint baseTableName="key_result" baseColumnNames="objective_id"
+      constraintName="fk_objective_relation_key_result_by_objective_id"
+      referencedTableName="objective" referencedColumnNames="id"/>
+  </changeSet>
+</databaseChangeLog>
