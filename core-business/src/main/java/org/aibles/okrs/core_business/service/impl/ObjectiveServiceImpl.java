@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ObjectiveServiceImpl implements ObjectiveService {
 
   private static final int RESULT_RETURN_WHEN_LESS_THAN_OR_EQUALS = 0;
-  private static final String KEY_MESSAGE_DEADLINE_INVALID = "message.deadline-invalid";
+  private static final String KEY_MESSAGE_DEADLINE_INVALID = "message.deadline-invalid-greater";
   private static final String KEY_MESSAGE_CONFLICT_CONTENT = "message.conflict-content";
 
   private final ObjectiveRepository repository;
