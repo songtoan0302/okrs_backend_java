@@ -22,7 +22,7 @@ public class ListObjectiveCriteria extends PagingReq {
 
   private String reason;
 
-  private Status status;
+  private String status;
 
   private Instant startTime;
 
@@ -41,7 +41,8 @@ public class ListObjectiveCriteria extends PagingReq {
         predicates.add(criteriaBuilder.like(root.get("reason"), StringUtils.wrap(reason, "%")));
       }
       if (Objects.nonNull(status)) {
-        predicates.add(criteriaBuilder.equal(root.get("status"), status));
+        Status statusEnum  = Status.contains(status) ? Status.valueOf(status) : Status.UNKNOWN;
+        predicates.add(criteriaBuilder.equal(root.get("status"), statusEnum));
       }
       if (Objects.nonNull(startTime)) {
         predicates.add(criteriaBuilder.greaterThan(root.get("createdAt"), startTime));
