@@ -13,7 +13,6 @@ import org.aibles.okrs.core_exception.component.MessageHelper;
 import org.aibles.okrs.core_exception.configuration.EnableCoreException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
