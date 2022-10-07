@@ -55,7 +55,7 @@ public class KeyResultServiceImpl implements KeyResultService {
     repository.deleteById(id);
   }
 
-  @CacheEvict
+  @CacheEvict(value = "key-result")
   @Override
   @Transactional
   public void deleteByObjectiveId(String objectiveId) {

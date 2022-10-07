@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import lombok.Data;
 import org.aibles.okrs.core_business.contants.Status;
@@ -47,6 +48,9 @@ public class ListObjectiveCriteria extends PagingReq {
       }
       if (Objects.nonNull(endTime)) {
         predicates.add(criteriaBuilder.lessThan(root.get("createdAt"), endTime));
+      }
+      if(!query.getResultType().equals(long.class) && !query.getResultType().equals(Long.class)) {
+        root.fetch("keyResult", JoinType.LEFT);
       }
       return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
     };
