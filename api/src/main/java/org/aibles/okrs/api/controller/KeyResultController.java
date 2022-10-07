@@ -46,7 +46,7 @@ public class KeyResultController {
     service.delete(id);
   }
 
-  @GetMapping(path = "/{objectiveId}/key-results{id}")
+  @GetMapping(path = "/{objectiveId}/key-results/{id}")
   @ResponseStatus(HttpStatus.OK)
   public KeyResultResponseDTO get(@PathVariable("id") String id) {
     log.info("(get)id: {}", id);
