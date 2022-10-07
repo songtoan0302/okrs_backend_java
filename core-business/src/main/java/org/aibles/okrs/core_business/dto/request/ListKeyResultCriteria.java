@@ -17,7 +17,7 @@ public class ListKeyResultCriteria extends PagingReq {
   private String content;
   private Long target;
   private Long currentAchievement;
-  private Status status;
+  private String status;
   private Instant startTime;
   private Instant endTime;
 
@@ -25,7 +25,7 @@ public class ListKeyResultCriteria extends PagingReq {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
       if (StringUtils.isNotBlank(content)) {
-        predicates.add(criteriaBuilder.like(root.get("type"), StringUtils.wrap(content, "%")));
+        predicates.add(criteriaBuilder.like(root.get("content"), StringUtils.wrap(content, "%")));
       }
       if (Objects.nonNull(target)) {
         predicates.add(criteriaBuilder.equal(root.get("target"), target));
@@ -34,7 +34,8 @@ public class ListKeyResultCriteria extends PagingReq {
         predicates.add(criteriaBuilder.equal(root.get("currentAchievement"), currentAchievement));
       }
       if (Objects.nonNull(status)) {
-        predicates.add(criteriaBuilder.equal(root.get("status"), status));
+       Status statusEnum  = Status.contains(status) ? Status.valueOf(status) : Status.UNKNOWN;
+        predicates.add(criteriaBuilder.equal(root.get("status"), statusEnum));
       }
       if (Objects.nonNull(startTime)) {
         predicates.add(criteriaBuilder.greaterThan(root.get("createdAt"), startTime));
